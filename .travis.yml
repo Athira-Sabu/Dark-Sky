@@ -16,5 +16,5 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - export IMAGE_NAME=athiraks/dark-sky
   - docker build -t $IMAGE_NAME:$TAG .
-  - docker push $IMAGE_NAME:$TAG
+  - docker push $IMAGE_NAME
 
