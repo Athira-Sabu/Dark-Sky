@@ -7,6 +7,7 @@ env:
     - secure: "encrypted-dockerhub-username"
     - secure: "encrypted-dockerhub-password"
     - secure: HEROKU_API_KEY
+    - secure: HEROKU_LOGIN
 
 
 script:
@@ -18,15 +19,16 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - export IMAGE_NAME=athiraks/dark-sky
   - docker build -t $IMAGE_NAME:$TAG .
-  - docker push $IMAGE_NAME
+  - curl https://cli-assets.heroku.com/install.sh | sh  #install heroku
+  - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com  #login to registry.heroku.com
 
 deploy:
-  provider: heroku
-  api-key:
-    secure: "$HEROKU_API_KEY"
-  app: weather-dark-sky
-  on:
-    tags: false
-    branch: main
-    repo: "$IMAGE_NAME"
+  provider: script
+  script:
+    # push to dockerhub & heroku
+    docker push $IMAGE_NAME
+    docker push registry.heroku.com/weather-dark-sky/web;
+    heroku container: release web --app weather-dark-sky
+    on:
+      branch: main
 
