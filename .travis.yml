@@ -27,5 +27,5 @@ deploy:
   app: weather-dark-sky
   on:
     tags: true
-    repo: "$IMAGE_NAME"
+    repo: "$IMAGE_NAME:$TAG"
 
