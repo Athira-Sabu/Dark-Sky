@@ -24,7 +24,7 @@ deploy:
   provider: heroku
   api-key:
     secure: "$HEROKU_API_KEY"
-  app: dark-sky
+  app: weather-dark-sky
   on:
     tags: true
     repo: "$IMAGE_NAME"
