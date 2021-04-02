@@ -26,6 +26,7 @@ deploy:
     secure: "$HEROKU_API_KEY"
   app: weather-dark-sky
   on:
-    tags: true
-    repo: "$IMAGE_NAME:$TAG"
+    tags: false
+    branch: main
+    repo: "$IMAGE_NAME"
 
