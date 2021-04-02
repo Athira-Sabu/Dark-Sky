@@ -6,6 +6,8 @@ env:
   global:
     - secure: "encrypted-dockerhub-username"
     - secure: "encrypted-dockerhub-password"
+    - secure: HEROKU_API_KEY
+
 
 script:
   - cd dark-sky
@@ -17,4 +19,13 @@ after_success:
   - export IMAGE_NAME=athiraks/dark-sky
   - docker build -t $IMAGE_NAME:$TAG .
   - docker push $IMAGE_NAME
+
+deploy:
+  provider: heroku
+  api-key:
+    secure: "$HEROKU_API_KEY"
+  app: dark-sky
+  on:
+    tags: true
+    repo: "$IMAGE_NAME"
 
